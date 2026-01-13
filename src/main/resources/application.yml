@@ -2,6 +2,10 @@ spring:
   application:
     name: ai-bot
   
+  # 允许Bean定义覆盖，解决Spring AI版本冲突问题
+  main:
+    allow-bean-definition-overriding: true
+  
   # Spring AI 配置
   ai:
     # DashScope (阿里云通义千问) 配置

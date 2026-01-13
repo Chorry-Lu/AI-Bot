@@ -28,6 +28,27 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- 强制Alibaba依赖使用的Spring AI核心库版本为1.0.0，避免版本冲突 -->
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-commons</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-model</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-rag</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-autoconfigure-model-chat-client</artifactId>
+                <version>1.0.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     
