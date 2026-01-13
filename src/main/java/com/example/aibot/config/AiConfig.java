@@ -1,30 +1,37 @@
 package com.example.aibot.config;
 
-import com.alibaba.cloud.ai.dashscope.api.DashScopeApi;
-import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Spring AI 配置类
+ * 使用Spring Boot自动配置，通过@Qualifier注入不同的ChatModel
+ */
 @Configuration
 public class AiConfig {
 
-    @Value("${spring.ai.dashscope.api-key}")
-    private String dashScopeApiKey;
-    
-    @Value("${spring.ai.dashscope.model:qwen-max}")
-    private String modelName;
-    
-    @Bean
-    public ChatModel chatModel() {
-        DashScopeApi dashScopeApi = new DashScopeApi(dashScopeApiKey);
-        return new DashScopeChatModel(dashScopeApi, modelName);
+    /**
+     * DashScope ChatClient Bean
+     * Spring Boot会自动创建DashScopeChatModel，我们只需要注入并创建ChatClient
+     */
+    @Bean("dashscopeChatClient")
+    public ChatClient dashScopeChatClient(@Qualifier("dashScopeChatModel") ChatModel dashScopeChatModel) {
+        return ChatClient.builder(dashScopeChatModel)
+                .defaultSystem("你是一个有用的AI助手。")
+                .build();
     }
     
-    @Bean
-    public ChatClient chatClient(ChatModel chatModel) {
-        return ChatClient.create(chatModel);
+    /**
+     * OpenAI ChatClient Bean
+     * Spring Boot会自动创建OpenAiChatModel，我们只需要注入并创建ChatClient
+     */
+    @Bean("openaiChatClient")
+    public ChatClient openAiChatClient(@Qualifier("openAiChatModel") ChatModel openAiChatModel) {
+        return ChatClient.builder(openAiChatModel)
+                .defaultSystem("You are a helpful AI assistant.")
+                .build();
     }
 }

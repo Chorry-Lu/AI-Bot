@@ -2,19 +2,32 @@ spring:
   application:
     name: ai-bot
   
-  # Spring AI DashScope (通义千问) 配置
+  # Spring AI 配置
   ai:
+    # DashScope (阿里云通义千问) 配置
     dashscope:
-      api-key: ${DASHSCOPE_API_KEY:your-api-key-here}  # 从环境变量或配置中获取API密钥
-      model: qwen-max # 或者使用 qwen-plus, qwen-turbo 等
-      # 可选配置
-      options:
-        temperature: 0.7
-        top-p: 0.8
+      api-key: ${DASHSCOPE_API_KEY:your-dashscope-api-key-here}
+      chat:
+        options:
+          model: qwen-max  # 可选: qwen-max, qwen-plus, qwen-turbo, qwen-7b-chat等
+          temperature: 0.7
+          top-p: 0.8
+          max-tokens: 2000
+    
+    # OpenAI 配置
+    openai:
+      api-key: ${OPENAI_API_KEY:your-openai-api-key-here}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      chat:
+        options:
+          model: ${OPENAI_MODEL:gpt-3.5-turbo}  # 可选: gpt-4, gpt-4-turbo, gpt-3.5-turbo等
+          temperature: 0.7
+          max-tokens: 2000
 
 server:
   port: 8080
 
 logging:
   level:
-    org.springframework.ai: DEBUG
+    org.springframework.ai: INFO
+    com.example.aibot: DEBUG

@@ -42,18 +42,33 @@ AI-Bot/
 
 ### 2. 控制器层 (controller/)
 - **ChatController.java**: 处理聊天相关API请求
-  - POST /api/chat/simple: 简单聊天接口
-  - GET /api/chat/stream: 流式聊天接口（同步方式）
+  - POST /api/chat/simple: 简单聊天接口（支持模型选择）
+  - GET /api/chat/stream: 流式聊天接口（支持模型选择）
+  - POST /api/chat/chat: 指定模型聊天接口
 - **HomeController.java**: 处理主页和健康检查请求
+- **ModelController.java**: 模型管理接口
+  - GET /api/models/list: 获取支持的模型列表
 
 ### 3. 服务层 (service/)
 - **ChatService.java**: 封装聊天业务逻辑
   - 提供 sendMessage 方法处理用户消息
+  - 支持多模型选择
+- **ModelService.java**: 模型服务接口
+  - 定义模型服务的标准接口
+- **impl/**: 模型服务的具体实现
+  - **DashScopeModelService.java**: 阿里云通义千问模型服务实现
+  - **OpenAIModelService.java**: OpenAI模型服务实现
 
 ### 4. 配置层 (config/)
-- **AiConfig.java**: 配置 Spring AI Alibaba 相关 Bean
+- **AiConfig.java**: 配置多模型相关 Bean
   - 初始化 DashScopeChatModel
-  - 创建 ChatClient 实例
+  - 初始化 OpenAIChatModel
+  - 创建对应的 ChatClient 实例
+
+### 5. 枚举 (enums/)
+- **ModelType.java**: 定义支持的模型类型
+  - DASHSCOPE: 阿里云通义千问
+  - OPENAI: OpenAI模型
 
 ### 5. 配置文件 (application.yml)
 - 配置 Spring AI Alibaba (DashScope) 参数
